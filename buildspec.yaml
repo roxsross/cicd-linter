@@ -8,6 +8,7 @@ phases:
   build:
     commands:
       - echo "hadolint"
+      - bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"0/" ]; then exit 1; fi"
       - docker run --rm -i hadolint/hadolint < Dockerfile
       - echo "kubelinter"
       - export REPO_NAME=${git_url/\.git/''}
@@ -15,9 +16,7 @@ phases:
       - docker run --rm -v $(pwd):/dir stackrox/kube-linter lint --format json /dir/$REPO_NAME > kube-linter.json
   post_build:
     commands:
-      - bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"0/" ]; then exit 1; fi"
-      - echo Build stage successfully completed on `date`
+      - echo CODEBUILD_BUILD_SUCCEEDING
       - echo Hadolint && Kubelint scan completed on `date`
-      - cat kube-linter.json
 artifacts:
   files: kube-linter.json

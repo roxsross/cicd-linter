@@ -7,13 +7,23 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  hadolint:
+    name: Linter dockerfile
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Run a one-line script
-        run: echo Hello, world!
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+    - uses: actions/checkout@v3
+    - name: Install hadolint
+      run: docker run --rm -i hadolint/hadolint < Dockerfile
+
+  kubelinter:
+    name: Linter kubernetes
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Scan yamls
+      id: kube-lint-scan
+      uses: stackrox/kube-linter-action@v1
+      with:
+        directory: cicd-linter
+        config: .kube-linter/config.yaml
+

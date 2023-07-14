@@ -32,7 +32,7 @@ jobs:
         directory: cicd-linter
         format: sarif
         output-file: kube-linter.sarif
-    - name: Upload kubelinter scan results to GitHub tab
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: 'kube-linter.sarif'
+    # - name: Upload kubelinter scan results to GitHub tab
+    #   uses: github/codeql-action/upload-sarif@v2
+    #   with:
+    #     sarif_file: 'kube-linter.sarif'

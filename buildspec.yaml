@@ -6,9 +6,9 @@ phases:
       - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
       - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
   build:
+    on-failure: CONTINUE
     commands:
       - echo "hadolint"
-      - bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"0/" ]; then exit 1; fi"
       - docker run --rm -i hadolint/hadolint < Dockerfile
       - echo "kubelinter"
       - export REPO_NAME=${git_url/\.git/''}

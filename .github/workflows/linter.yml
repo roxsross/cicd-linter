@@ -33,8 +33,6 @@ jobs:
         format: sarif
         output-file: kube-linter.sarif
     - name: Scan repo with kube-linter Docker
-      env:
-      REPO_NAME: ${{ github.event.repository.name }}
       continue-on-error: true
       run: |
        export REPO_NAME=${{ github.event.repository.name }}

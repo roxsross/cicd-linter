@@ -35,10 +35,7 @@ jobs:
     - name: Scan repo with kube-linter Docker
       continue-on-error: true
       run: |
-        echo ${{ GITHUB_REF_NAME }}
-        # docker run -v $(PWD):/dir 
-        #    stackrox/kube-linter 
-        #    lint /dir 
+        echo ${{ github.ref_name }}
 
     # - name: Upload kubelinter scan results to GitHub tab
     #   uses: github/codeql-action/upload-sarif@v2

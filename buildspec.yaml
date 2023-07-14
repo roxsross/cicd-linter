@@ -16,7 +16,6 @@ phases:
       - docker run --rm -v $(pwd):/dir stackrox/kube-linter lint --format json /dir/$REPO_NAME > kube-linter.json
   post_build:
     commands:
-      - echo CODEBUILD_BUILD_SUCCEEDING
-      - echo Hadolint && Kubelint scan completed on `date`
+      - echo $CODEBUILD_BUILD_SUCCEEDING
 artifacts:
   files: kube-linter.json

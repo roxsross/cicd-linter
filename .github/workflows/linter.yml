@@ -36,7 +36,7 @@ jobs:
       continue-on-error: true
       run: |
        export REPO_NAME=${{ github.event.repository.name }}
-       docker run -v $(PWD):/dir stackrox/kube-linter lint --format json /dir/$REPO_NAME > kube-linter.json
+       docker run -v $(pwd):/dir stackrox/kube-linter lint --format json /dir/$REPO_NAME > kube-linter.json
     - uses: actions/upload-artifact@v2
       name: upload kubelinter report
       with:

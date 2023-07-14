@@ -25,13 +25,21 @@ jobs:
       contents: read
     steps:
     - uses: actions/checkout@v3
-    - name: Scan repo with kube-linter
+    - name: Scan repo with kube-linter Actions
       uses: stackrox/kube-linter-action@v1.0.4
       continue-on-error: true
       with:
         directory: cicd-linter
         format: sarif
         output-file: kube-linter.sarif
+    - name: Scan repo with kube-linter Docker
+      continue-on-error: true
+      run: |
+        echo ${{ GITHUB_REF_NAME }}
+        # docker run -v $(PWD):/dir 
+        #    stackrox/kube-linter 
+        #    lint /dir 
+
     # - name: Upload kubelinter scan results to GitHub tab
     #   uses: github/codeql-action/upload-sarif@v2
     #   with:

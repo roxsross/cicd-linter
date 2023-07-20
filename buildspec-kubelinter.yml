@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
+      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
+  build:
+    on-failure: ABORT
+    commands:
+      - echo "Build started on $(date)"
+      - echo "Scanning with Kubelinter..."   
+      - export REPO_NAME=${git_url/\.git/''}
+      - echo $REPO_NAME
+      - docker run --rm -v $(pwd):/dir stackrox/kube-linter lint --format json /dir/$REPO_NAME > result-kube-linter.json
+
+  post_build:
+    on-failure: ABORT
+    commands:
+      - echo Build completed on `date`
+
+artifacts:
+  files: result-kube-linter.json

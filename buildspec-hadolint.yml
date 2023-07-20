@@ -15,7 +15,6 @@ phases:
     commands:
       - echo "Lint Results:"
       - echo $result | jq . >result-hadolint.json
-      - echo $CODEBUILD_BUILD_SUCCEEDING
       - bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"0/" ]; then exit 1; fi"
       - echo Build completed on `date`
 artifacts:

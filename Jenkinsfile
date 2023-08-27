@@ -13,13 +13,13 @@ pipeline {
 
                 }
                 stage('Linter Kube-linter') {
-                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     steps {
+                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                         sh '''
                         echo $GITHUB_REPO_NAME
                         docker run --rm -v $(pwd):/dir stackrox/kube-linter lint --format json /dir/$GITHUB_REPO_NAME > kube-linter.json
                         '''
-                    }
+                        }
                     }
                 }
             }

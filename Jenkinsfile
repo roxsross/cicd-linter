@@ -10,10 +10,14 @@ pipeline {
 
                 }
                 stage('Linter Kube-linter') {
+                    def repName = checkout(scm).repoName
+                    sh "echo 'Repository Name is: ${repName}'"
+                    println repName
                     steps {
                         sh '''
-                        export REPO_NAME=$(git remote -v | head -n1 | awk '{print $2}' | sed 's/.*\///' | sed 's/\.git//')
-                        docker run --rm -v $(pwd):/dir stackrox/kube-linter lint --format json /dir/$REPO_NAME > kube-linter.json
+                        echo "hola"
+                        #git remote -v | head -n1 | awk '{print $2}' | sed 's/.*\///' | sed 's/\.git//' >REPONAME
+                        #docker run --rm -v $(pwd):/dir stackrox/kube-linter lint --format json /dir/$REPO_NAME > kube-linter.json
                         '''
                     }
                 }

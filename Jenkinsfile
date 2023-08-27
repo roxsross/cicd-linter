@@ -16,8 +16,6 @@ pipeline {
                     steps {
                         sh '''
                         echo "hola"
-                        #git remote -v | head -n1 | awk '{print $2}' | sed 's/.*\///' | sed 's/\.git//' >REPONAME
-                        #docker run --rm -v $(pwd):/dir stackrox/kube-linter lint --format json /dir/$REPO_NAME > kube-linter.json
                         '''
                     }
                 }

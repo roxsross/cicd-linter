@@ -13,7 +13,7 @@ pipeline {
                 stage('Linter Kube-linter') {
                     steps {
                         sh '''
-                        export REPO_NAME=${git_url/\.git/''}
+                        env.REPO_NAME = env.GIT_URL.replace('.git', '').split('/').last()
                         docker run --rm -v $(pwd):/dir stackrox/kube-linter lint --format json /dir/$REPO_NAME > kube-linter.json
                         '''
                     }

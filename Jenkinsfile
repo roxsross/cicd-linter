@@ -13,6 +13,8 @@ pipeline {
                     steps {
                         sh '''
                         echo $GIT_URL
+                        export REPO_NAME=${$GIT_URL/\.git/''}
+                        echo $REPO_NAME
                         '''
                     }
                 }

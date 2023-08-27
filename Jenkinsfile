@@ -16,6 +16,7 @@ pipeline {
                     steps {
                         sh '''
                         echo $GITHUB_REPO_NAME
+                        docker run --rm -v $(pwd):/dir stackrox/kube-linter lint --format json /dir/$GITHUB_REPO_NAME > kube-linter.json
                         '''
                     }
                 }

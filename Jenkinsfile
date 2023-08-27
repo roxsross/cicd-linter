@@ -1,5 +1,3 @@
-def repoUrl = checkout(scm).GIT_URL
-
 pipeline {
     agent any
     stages {
@@ -14,7 +12,7 @@ pipeline {
                 stage('Linter Kube-linter') {
                     steps {
                         sh '''
-                        echo $repoUrl
+                        echo $GIT_URL
                         '''
                     }
                 }

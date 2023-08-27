@@ -1,5 +1,8 @@
 pipeline {
     agent any
+        environment {
+        GITHUB_REPO_NAME = env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')
+    }
     stages {
         stage('Check Linters') {
             parallel {
@@ -12,9 +15,7 @@ pipeline {
                 stage('Linter Kube-linter') {
                     steps {
                         sh '''
-                        echo $GIT_URL
-                        echo REPO_NAME=$($GIT_URL.tokenize('/.')[-2])
-                        echo $REPO_NAME
+                        echo $GITHUB_REPO_NAME
                         '''
                     }
                 }

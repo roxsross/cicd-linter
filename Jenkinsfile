@@ -12,12 +12,24 @@ pipeline {
                     }
 
                 }
-                stage('Linter Kube-linter') {
+                stage("Linter Kubelinter") {
+                    agent {
+                        docker {
+                            image "stackrox/kube-linter"
+                            args "--volume $(pwd):/dir"
+                            reuseNode true
+                        }
+                    }
                     steps {
-                        sh '''
-                        echo $GITHUB_REPO_NAME
-                        docker run --rm -v $(pwd):/dir stackrox/kube-linter lint --format json /dir/$GITHUB_REPO_NAME > kube-linter.json
-                        '''
+                        script {
+                            def result = sh label: "Kube-linter", returnStatus: true,
+                                script: """\
+                                    kube-linter lint --format json /dir/$GITHUB_REPO_NAME
+                            """
+                            if (result > 0) {
+                                unstable(message: "Kube-linter issues found")
+                            }   
+                        }
                     }
                 }
             }

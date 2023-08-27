@@ -16,7 +16,7 @@ pipeline {
                     agent {
                         docker {
                             image "stackrox/kube-linter"
-                            args "--volume $(pwd):/dir"
+                            args "--volume ${WORKSPACE}:/dir"
                             reuseNode true
                         }
                     }

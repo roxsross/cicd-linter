@@ -1,9 +1,9 @@
 name: LINTER
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "*" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "*" ]
   workflow_dispatch:
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
       with:
         name: kubelinter
         path: kube-linter.json
-    # - name: Upload kubelinter scan results to GitHub tab
-    #   uses: github/codeql-action/upload-sarif@v2
-    #   with:
-    #     sarif_file: 'kube-linter.sarif'
+    - name: Upload kubelinter scan results to GitHub tab
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'kube-linter.sarif'

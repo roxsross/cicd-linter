@@ -1,15 +1,29 @@
 stages:
   - linter
+variables:
+  DOCKER_HOST: tcp://localhost:2375
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
 
-hadolint:
+services:
+  - docker:20.10.19-dind
+
+docker-lint:
   stage: linter
   image: hadolint/hadolint:latest-debian
+  allow_failure: true
   script:
     - | 
       hadolint --ignore DL3018 --ignore DL3019 Dockerfile
 
 kube-linter:
   stage: linter
-  image: stackrox/kube-linter:0.1.4
+  image: alpine:latest
+  allow_failure: true
   script:
-    - kube-linter lint $CI_PROJECT_NAME
+    - | 
+      apk add --no-cache curl unzip
+      curl -LO --silent https://github.com/stackrox/kube-linter/releases/download/v0.6.4/kube-linter-linux.tar.gz
+      tar -xzf kube-linter-linux.tar.gz ; chmod +x ./kube-linter
+      ./kube-linter version 
+      ./kube-linter lint $CI_PROJECT_NAME

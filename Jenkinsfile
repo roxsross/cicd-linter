@@ -1,3 +1,5 @@
+def repoUrl = checkout(scm).GIT_URL
+
 pipeline {
     agent any
     stages {
@@ -10,12 +12,9 @@ pipeline {
 
                 }
                 stage('Linter Kube-linter') {
-                    def repName = checkout(scm).repoName
-                    sh "echo 'Repository Name is: ${repName}'"
-                    println repName
                     steps {
                         sh '''
-                        echo "hola"
+                        echo $repoUrl
                         '''
                     }
                 }

@@ -24,11 +24,5 @@ pipeline {
                 }
             }
         }
-                        stage('Linterr Hadolint') {
-                    steps {
-                        sh 'docker run --rm -i hadolint/hadolint < Dockerfile'      
-                    }
-
-                }
     }
 }

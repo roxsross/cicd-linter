@@ -13,7 +13,7 @@ pipeline {
                     steps {
                         sh '''
                         echo $GIT_URL
-                        env.REPO_NAME = env.GIT_URL.replace('.git', '').split('/').last()
+                        echo REPO_NAME=$($GIT_URL.tokenize('/.')[-2])
                         echo $REPO_NAME
                         '''
                     }
